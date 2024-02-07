@@ -8,9 +8,19 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const logging_1 = __importDefault(require("./config/logging"));
 const config_1 = __importDefault(require("./config/config"));
-const sample_1 = __importDefault(require("./routes/sample"));
+const recipe_1 = __importDefault(require("./routes/recipe"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const NAMESPACE = 'Server';
 const router = (0, express_1.default)();
+// Connect to Mongo
+mongoose_1.default
+    .connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/recipe101')
+    .then((result) => {
+    logging_1.default.info(NAMESPACE, 'Connected to mongoDB!');
+})
+    .catch((error) => {
+    logging_1.default.error(NAMESPACE, error.message, error);
+});
 // Logging the request
 router.use((req, res, next) => {
     logging_1.default.info(NAMESPACE, `METHOD - [${req.method}], URL - [${req.url}],, IP - ${req.socket.remoteAddress}`);
@@ -35,7 +45,7 @@ router.use((req, res, next) => {
     next();
 });
 // Routes
-router.use('/sample', sample_1.default);
+router.use('/api/recipe', recipe_1.default);
 // Error Handling
 router.use((req, res, next) => {
     const error = new Error('not found');

@@ -18,7 +18,6 @@ mongoose
         logging.error(NAMESPACE, error.message, error);
     });
 
-
 // Logging the request
 router.use((req, res, next) => {
     logging.info(NAMESPACE, `METHOD - [${req.method}], URL - [${req.url}],, IP - ${req.socket.remoteAddress}`);
@@ -48,7 +47,7 @@ router.use((req, res, next) => {
 });
 
 // Routes
-router.use('/api/recipe', recipeRoutes);
+router.use('/api', recipeRoutes);
 // Error Handling
 router.use((req, res, next) => {
     const error = new Error('not found');
