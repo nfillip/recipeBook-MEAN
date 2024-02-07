@@ -1,13 +1,14 @@
 import express from 'express';
 import controller from '../controllers/recipe';
 import controllerUser from '../controllers/user';
+import extractJWT from '../middleware/extractJWT';
 const router = express.Router();
 
-router.get('/get/recipes', controller.getAllRecipes);
-router.post('/post/recipe', controller.createRecipe);
+router.get('/recipes/getAll', controller.getAllRecipes);
+router.post('/recipes/create', controller.createRecipe);
 
-router.get('/validate', controllerUser.validateToken);
-router.post('/register', controllerUser.register);
-router.post('/login', controllerUser.login);
-router.get('/get/all', controllerUser.getAllUsers);
+router.get('/users/validate', extractJWT, controllerUser.validateToken);
+router.post('/users/register', controllerUser.register);
+router.post('/users/login', controllerUser.login);
+router.get('/users/getAll', controllerUser.getAllUsers);
 export = router;
